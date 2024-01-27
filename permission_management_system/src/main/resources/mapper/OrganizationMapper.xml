@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demotest.mapper.OrganizationMapper">
+
+    <select id="getallorg" resultType="com.example.demotest.pojo.Organization" >
+        SELECT *
+        from Organization
+    </select>
+
+    <delete id="deleteOneorg" parameterType="Integer">
+        delete from Organization
+        where orgid = #{orgid}
+    </delete>
+
+    <insert id="insertorg" parameterType="com.example.demotest.pojo.Organization">
+        INSERT INTO Organization
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != orgid   and '' != orgid">
+                orgid ,
+            </if>
+            <if test="null != orgname and '' != orgname">
+                orgname,
+            </if>
+            <if test="null != location and '' != location">
+                location
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != orgid   and '' != orgid">
+                #{orgid} ,
+            </if>
+            <if test="null != orgname and '' != orgname">
+                #{orgname},
+            </if>
+            <if test="null != location and '' != location">
+                #{location}
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateorg" parameterType="com.example.demotest.pojo.Organization">
+        UPDATE Organization
+        <set>
+            <if test="null != orgname and '' != orgname">orgname = #{orgname},</if>
+            <if test="null != location and '' != location">location = #{location},</if>
+        </set>
+        WHERE orgid = #{orgid}
+    </update>
+    <select id="selectbyTiaoJianorg" resultType="com.example.demotest.pojo.Organization">
+        select *
+        FROM Organization
+        <where>
+            <if test="null !=orgname and '' != orgname">
+                orgname like concat('%', #{orgname}, '%')
+            </if>
+            <if test="null != location and '' != location">
+                 and location like concat('%', #{location}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="getorgid" resultType="Integer">
+        select orgid
+        from organization
+    </select>
+    <select id="getorgcount" resultType="Integer">
+        select count(*)
+        from organization
+    </select>
+    </mapper>

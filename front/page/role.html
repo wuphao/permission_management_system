@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>table 模块快速使用</title>
+  <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+</head>
+<body>
+<!--<fieldset class="table-search-fieldset">-->
+<!--  <legend>查询条件</legend>-->
+  <div style="margin: 10px 10px 10px 10px">
+    <form class="layui-form layui-form-pane" action="" id="biaodan">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">角色名称</label>
+          <div class="layui-input-inline">
+            <label for="rolename"></label><input id="rolename" type="text" name="rolename" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">所属组织</label>
+          <div class="layui-input-inline">
+            <label for="orgname"></label><input id="orgname" type="text" name="orgname" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+		<div class="layui-inline">
+		  <label class="layui-form-label">所属部门</label>
+		  <div class="layui-input-inline">
+		    <label for="posname"></label><input id="posname" type="text" name="posname" autocomplete="off" class="layui-input">
+		  </div>
+		</div>
+		<div class="layui-inline">
+		  <label class="layui-form-label">权限</label>
+		  <div class="layui-input-inline">
+		    <label for="pername"></label><input id="pername" type="text" name="pername" autocomplete="off" class="layui-input">
+		  </div>
+		</div>
+        <div class="layui-inline">
+          <button class="layui-btn" id="searchBtn" lay-submit
+                  lay-filter="formDemo" data-type="reload">
+            <i class="layui-icon layui-icon-search"></i> 查询
+          </button>
+          <button type="reset" id="resetBtn" class="layui-btn layui-btn-primary"><i
+                  class="layui-icon layui-icon-refresh" ></i> 重 置
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+<!--</fieldset>-->
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add">
+      <i class="layui-icon">&#xe608;</i>新增</button>
+  </div>
+</script>
+
+<table id="demo" lay-filter="test"></table>
+<script type="text/html" id="currentTableBar">
+  <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+</script>
+
+<div class="layui-row" id="popUpdateTest" style="display:none;">
+
+  <div class="layui-col-md10">
+    <form class="layui-form layui-from-pane" lay-filter="aaa" action="" style="margin-top:20px">
+      <div class="layui-form-item" hidden="true">
+        <label class="layui-form-label">编号</label>
+        <div class="layui-input-block">
+          <input type="text" name="roleid" placeholder="请输入编号" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="rolename"  placeholder="请输入角色名称" autocomplete="off"
+                 class="layui-input">
+        </div>
+      </div>
+	  
+    <div class="layui-form-item">
+      <label class="layui-form-label">所属组织</label>
+      <div class="layui-input-inline">
+        <select id="orgnameSelect" name="orgname" lay-search>
+          <option value="">请选择组织</option>
+        </select>
+      </div>
+    </div>
+
+      <div class="layui-form-item">
+	       <label class="layui-form-label">所属部门</label>
+	       <div class="layui-input-inline">
+	         <select id="posnameSelect" name="posname" lay-search>
+	           <option value="">请选择部门</option>
+	         </select>
+	       </div>
+		    </div>
+	 <div class="layui-form-item">
+	   <label class="layui-form-label">权限</label>
+	   <div class="layui-input-block">
+	    <select id="pernameSelect" name="pername" lay-search>
+	      <option value="">请选择权限</option>
+	    </select>
+	   </div>
+	 </div>
+	  
+      <div class="layui-form-item" style="margin-top:40px">
+        <div class="layui-input-block">
+          <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="demo11">确认修改</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="layui-row" id="popUpdateTest1" style="display:none;">
+
+  <div class="layui-col-md10">
+    <form class="layui-form layui-from-pane" lay-filter="aaa" action="" style="margin-top:20px">
+      <div class="layui-form-item" hidden="true">
+        <label class="layui-form-label">编号</label>
+        <div class="layui-input-block">
+          <input type="text" name="roleid"  placeholder="请输入编号" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+	  <!-- <div class="layui-form-item">
+	    <label class="layui-form-label">用户编号</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="userid" required lay-verify="required" placeholder="请输入用户编号" autocomplete="off"
+	             class="layui-input">
+	    </div>
+	  </div> -->
+      <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="rolename" required lay-verify="required" placeholder="请输入角色名称(必填)" autocomplete="off"
+                 class="layui-input">
+        </div>
+      </div>
+	   <div class="layui-form-item">
+	        <label class="layui-form-label">所属组织</label>
+	        <div class="layui-input-inline">
+	          <select id="orgnameSelect1" name="orgname" lay-search>
+	            <option value="">请选择组织</option>
+	          </select>
+	        </div>
+		</div>
+	  <div class="layui-form-item">
+	       <label class="layui-form-label">所属部门</label>
+	       <div class="layui-input-inline">
+	         <select id="posnameSelect1" name="posname" lay-search>
+	           <option value="">请选择部门</option>
+	         </select>
+	       </div>
+		    </div>
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">权限</label>
+	    <div class="layui-input-block">
+	     <select id="pernameSelect1" name="pername" lay-search>
+	       <option value="">请选择权限</option>
+	     </select>
+	    </div>
+	  </div>
+    
+    
+	  
+      <div class="layui-form-item" style="margin-top:40px">
+        <div class="layui-input-block">
+          <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="demo11">确认添加</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../lib/layui-v2.6.3/layui.js"></script>
+<script>
+  layui.use(['table','layer','form'], function(){
+    var table = layui.table;
+    var $ = layui.jquery;
+    var layer = layui.layer;
+    var form = layui.form;
+    //第一个实例
+    table.render({
+      elem: '#demo'
+      ,height: 500
+      ,url: 'http://localhost:8083/role/selectByTiaoJianrole' //数据接口
+      ,page: true //开启分页
+      ,toolbar: '#toolbarDemo'
+	   ,headers:{"token":localStorage.token}
+      ,where: {rolename : '',orgname : '',posname : '',pername : ''}
+      ,cols: [[ //表头
+        {field: 'roleid', title: 'ID', width:100, sort: true}
+        ,{field: 'rolename', title: '角色名称', width:100}
+        ,{field: 'orgname', title: '所属组织', width:300}
+        ,{field: 'posname', title: '所属部门', width:300}
+		,{field: 'pername', title: '权限', width:100}
+        , {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"},
+		]],
+		 error:function(resp)
+		{
+				   layer.msg("你没有登录", {icon: 5});
+				  setTimeout(function() {
+		   window.location = '../login.html';
+				      }, 3000); 
+		}
+    });
+
+    //监听行工具事件
+    table.on('tool(test)', function (obj) {
+      var data = obj.data;
+      var id = data.roleid;//选中行的id
+      console.log("data数据为：", data);
+      console.log("id数据为：", data.roleid);
+      if (obj.event === 'edit') {
+        // layer.alert('编辑行：<br>' + JSON.stringify(data))
+        updaterole(obj, data);
+      // } else if (obj.event === 'add'){
+      //    console.log("我的数据中data  为:",data);
+      //    adduser(obj,data);
+      }else if (obj.event === 'delete') {
+        layer.confirm('真的删除行么', function (index) {
+          // obj.del();
+          layer.close(index);
+          console.log(id)
+          deleterole(id);
+
+        });
+      }
+    });
+    table.on('toolbar(test)', function (obj) {
+      if (obj.event === 'add'){
+        addrole()
+      }
+    })
+    //删除用户
+    function deleterole(id) {
+
+      var url = "http://localhost:8083/role/deleteOnerole?roleid="+id;
+      console.log("url为：", url);
+      $.ajax({
+        type: "GET",
+        url: url,
+        contentType: 'application/json',
+        datatype: "json",
+		  headers:{"token":localStorage.token},
+        success: function (resp) {
+          console.log(resp);
+          if (resp.code == 0) {
+            layer.msg("删除成功", {icon: 6});
+            //刷新数据
+            $(".layui-laypage-btn").click();
+          } else {
+            layer.msg("删除失败", {icon: 5});
+          }
+        },
+		error:function(resp)
+		{
+				    layer.msg("你没有权限", {icon: 5});
+		}
+      })
+      return false;
+    }
+
+    //修改用户信息
+    function updaterole(obj, data) {
+
+      //回填数据到表单
+      form.val("aaa", {
+        "roleid": data.roleid
+        , "rolename": data.rolename
+        , "orgname": data.orgname
+        , "posname" :data.posname
+		,"pername":data.pername
+      });
+      layer.open({
+        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+        type: 1,
+        title: "修改用户信息",
+        area: ['420px', '500px'],
+        content: $("#popUpdateTest")//引用的弹出层的页面层的方式加载修改界面表单
+      });
+
+      console.log("修改原始数据为：", data);
+      console.log("id类型",data.roleid);
+      console.log("obj为：", obj);
+      form.on('submit(demo11)', function (massage) {
+
+        console.log("message为：", massage);
+        console.log("我为",massage.field);
+        console.log("===",data);
+
+        var data1 = massage.field;
+
+        // var data3 = data1.push(data.id);
+        // console.log("=================",data3)
+        var data2 = data;
+        console.log("赋值之后的data:",data2);
+        $.ajax({
+          type: "post",
+          url: "http://localhost:8083/role/updaterole",
+          data: JSON.stringify(data1),
+          // data: { id: data.id, name: data2.name, age: data2.age },
+          contentType: 'application/json',
+          datatype: "json",
+		    headers:{"token":localStorage.token},
+          success: function (resp) {
+            console.log(resp);
+            layer.closeAll();//关闭所有的弹出层
+            if (resp.code == 0) {
+              layer.msg("修改成功", {icon: 6});
+              //刷新数据
+              $(".layui-laypage-btn").click();
+            } else {
+              layer.msg("修改失败", {icon: 5});
+            }
+          },
+		  error:function(resp)
+		  {
+		  		    layer.msg("你没有权限", {icon: 5});
+		  }
+        })
+        return false
+
+      })
+    }
+	
+$.ajax({
+   type: "GET",
+   url: "http://localhost:8083/org/getallorg",
+   contentType: 'application/json',
+   dataType: "json",
+    headers:{"token":localStorage.token},
+   success: function(resp) {
+     var orgnameSelect = $('#orgnameSelect');
+     orgnameSelect.empty(); // 清空现有选项
+     
+     // 使用 Set 存储已经添加的值
+     var addedValues = new Set();
+     
+     // 添加默认选项
+     orgnameSelect.append('<option value="">请选择组织</option>');
+     
+     for (var i = 0; i < resp.data.length; i++) {
+       var org = resp.data[i];
+       
+       // 检查该值是否已经添加过
+       if (!addedValues.has(org.orgname)) {
+         orgnameSelect.append('<option value="' + org.orgname + '">' + org.orgname + '</option>');
+         
+         // 将该值添加到 Set 中
+         addedValues.add(org.orgname);
+       }
+     }
+    
+     // 重新渲染表单元素
+     layui.form.render('select');
+   }
+ });
+
+
+$.ajax({
+   type: "GET",
+   url: "http://localhost:8083/org/getallorg",
+   contentType: 'application/json',
+   dataType: "json",
+    headers:{"token":localStorage.token},
+   success: function(resp) {
+     var orgnameSelect = $('#orgnameSelect1');
+     orgnameSelect.empty(); // 清空现有选项
+     
+     // 使用 Set 存储已经添加的值
+     var addedValues = new Set();
+     
+     // 添加默认选项
+     orgnameSelect.append('<option value="">请选择组织</option>');
+     
+     for (var i = 0; i < resp.data.length; i++) {
+       var org = resp.data[i];
+       
+       // 检查该值是否已经添加过
+       if (!addedValues.has(org.orgname)) {
+         orgnameSelect.append('<option value="' + org.orgname + '">' + org.orgname + '</option>');
+         
+         // 将该值添加到 Set 中
+         addedValues.add(org.orgname);
+       }
+     }
+    
+     // 重新渲染表单元素
+     layui.form.render('select');
+   }
+ });
+ $.ajax({
+    type: "GET",
+    url: "http://localhost:8083/pos/getallpos",
+    contentType: 'application/json',
+    dataType: "json",
+	 headers:{"token":localStorage.token},
+    success: function(resp) {
+      var posnameSelect = $('#posnameSelect1');
+      posnameSelect.empty(); // 清空现有选项
+      
+      // 使用 Set 存储已经添加的值
+      var addedValues = new Set();
+      
+      // 添加默认选项
+      posnameSelect.append('<option value="">请选择部门</option>');
+      
+      for (var i = 0; i < resp.data.length; i++) {
+        var pos = resp.data[i];
+        
+        // 检查该值是否已经添加过
+        if (!addedValues.has(pos.posname)) {
+          posnameSelect.append('<option value="' + pos.posname + '">' + pos.posname + '</option>');
+          
+          // 将该值添加到 Set 中
+          addedValues.add(pos.posname);
+        }
+      }
+     
+      // 重新渲染表单元素
+      layui.form.render('select');
+    }
+  });
+  
+  $.ajax({
+     type: "GET",
+     url: "http://localhost:8083/pos/getallpos",
+     contentType: 'application/json',
+     dataType: "json",
+	  headers:{"token":localStorage.token},
+     success: function(resp) {
+       var posnameSelect = $('#posnameSelect');
+       posnameSelect.empty(); // 清空现有选项
+       
+       // 使用 Set 存储已经添加的值
+       var addedValues = new Set();
+       
+       // 添加默认选项
+       posnameSelect.append('<option value="">请选择部门</option>');
+       
+       for (var i = 0; i < resp.data.length; i++) {
+         var pos = resp.data[i];
+         
+         // 检查该值是否已经添加过
+         if (!addedValues.has(pos.posname)) {
+           posnameSelect.append('<option value="' + pos.posname + '">' + pos.posname + '</option>');
+           
+           // 将该值添加到 Set 中
+           addedValues.add(pos.posname);
+         }
+       }
+      
+       // 重新渲染表单元素
+       layui.form.render('select');
+     }
+   });
+   
+   $.ajax({
+      type: "GET",
+      url: "http://localhost:8083/role/getallrole",
+      contentType: 'application/json',
+      dataType: "json",
+	   headers:{"token":localStorage.token},
+      success: function(resp) {
+        var pernameSelect = $('#pernameSelect');
+        pernameSelect.empty(); // 清空现有选项
+        
+        // 使用 Set 存储已经添加的值
+        var addedValues = new Set();
+        
+        // 添加默认选项
+        pernameSelect.append('<option value="">请选择权限</option>');
+        
+        for (var i = 0; i < resp.data.length; i++) {
+          var per = resp.data[i];
+          
+          // 检查该值是否已经添加过
+          if (!addedValues.has(per.pername)) {
+            pernameSelect.append('<option value="' + per.pername + '">' + per.pername + '</option>');
+            
+            // 将该值添加到 Set 中
+            addedValues.add(per.pername);
+          }
+        }
+       
+        // 重新渲染表单元素
+        layui.form.render('select');
+      }
+    });
+	$.ajax({
+	   type: "GET",
+	   url: "http://localhost:8083/role/getallrole",
+	   contentType: 'application/json',
+	   dataType: "json",
+	    headers:{"token":localStorage.token},
+	   success: function(resp) {
+	     var pernameSelect = $('#pernameSelect1');
+	     pernameSelect.empty(); // 清空现有选项
+	     
+	     // 使用 Set 存储已经添加的值
+	     var addedValues = new Set();
+	     
+	     // 添加默认选项
+	     pernameSelect.append('<option value="">请选择权限</option>');
+	     
+	     for (var i = 0; i < resp.data.length; i++) {
+	       var per = resp.data[i];
+	       
+	       // 检查该值是否已经添加过
+	       if (!addedValues.has(per.pername)) {
+	         pernameSelect.append('<option value="' + per.pername + '">' + per.pername + '</option>');
+	         
+	         // 将该值添加到 Set 中
+	         addedValues.add(per.pername);
+	       }
+	     }
+	    
+	     // 重新渲染表单元素
+	     layui.form.render('select');
+	   }
+	 });
+
+    //新增用户信息
+    function addrole() {
+      //回填数据到表单
+      form.val("aaa", {
+        "roleid": ''
+        , "rolename": ''
+        , "orgname": ''
+        , "posname" :''
+		, "pername" :''
+      });
+      layer.open({
+        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+        type: 1,
+        title: "新增角色",
+        area: ['420px', '500px'],
+        content: $("#popUpdateTest1")//引用的弹出层的页面层的方式加载修改界面表单
+      });
+      console.log("测试输出");
+      //监听提交
+      form.on('submit(demo11)', function (message) {
+        // console.log(data.field);
+        var field = message.field;
+        console.log(field);
+        $.ajax({
+          type: "post",
+          url: "http://localhost:8083/role/insertrole",
+          data: JSON.stringify(field),
+          contentType: 'application/json',
+          datatype: "json",
+		    headers:{"token":localStorage.token},
+          success: function (resp) {
+            console.log(resp.data.posname);
+            layer.closeAll();//关闭所有的弹出层
+            if (resp.code == 0) {
+              layer.msg("添加成功", {icon: 6});
+              //刷新数据
+              $(".layui-laypage-btn").click();
+            } else {
+              layer.msg("添加失败", {icon: 5});
+            }
+          },
+		  error:function(resp)
+		  {
+		  		    layer.msg("你没有权限", {icon: 5});
+		  }
+        });
+        return false
+      });
+
+    }
+// 条件搜索
+    $('#searchBtn').on('click', function () {
+      table.reload('demo', {
+        method: 'get',
+        where: {
+          rolename: $('#rolename').val().trim(),
+          orgname: $('#orgname').val().trim(),
+		  posname: $('#posname').val().trim(),
+		   pername: $('#pername').val().trim()
+        },
+        page: {
+          curr: 1
+        }
+      });
+      return false;
+    });
+    //点击重置之后重新调用查询接口
+    $('#resetBtn').on('click', function () {
+      layui.form.render();
+      $('#biaodan')[0].reset();
+      table.reload('demo', {
+        method: 'get',
+        where: {
+          rolename: '',
+          orgname:'',
+		  posname:'',
+		  pername:''
+        },
+        page: {
+          curr: 1
+        }
+      });
+      return false;
+    });
+  });
+
+</script>
+</body>
+</html>

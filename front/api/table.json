@@ -1,0 +1,42 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 1000,
+  "data": [
+    {
+      "useId": 10000,
+      "username": "user-0",
+      "password": "女",
+      "phoneNumber": "城市-0",
+      "email": "签名-0"
+    },
+   {
+     "useId": 10000,
+     "username": "user-0",
+     "password": "女",
+     "phoneNumber": "城市-0",
+     "email": "签名-0"
+   },
+   {
+     "useId": 10000,
+     "username": "user-0",
+     "password": "女",
+     "phoneNumber": "城市-0",
+     "email": "签名-0"
+   },
+   {
+     "useId": 10000,
+     "username": "user-0",
+     "password": "女",
+     "phoneNumber": "城市-0",
+     "email": "签名-0"
+   },
+    {
+      "useId": 10000,
+      "username": "user-0",
+      "password": "女",
+      "phoneNumber": "城市-0",
+      "email": "签名-0"
+    }
+  ]
+}

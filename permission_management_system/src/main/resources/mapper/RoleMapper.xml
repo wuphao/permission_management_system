@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demotest.mapper.RoleMapper">
+
+    <select id="getallrole" resultType="com.example.demotest.pojo.Role" >
+        SELECT roleid,rolename,orgname,posname,pername
+        from Role natural join pos natural join organization natural join permission
+    </select>
+
+    <delete id="deleteOnerole" parameterType="Integer">
+        delete from Role
+        where roleid = #{roleid}
+    </delete>
+
+    <insert id="insertrole" parameterType="com.example.demotest.pojo.Role">
+        INSERT INTO Role
+        (
+        <if test="null != roleid and '' != roleid">
+            roleid,
+        </if>
+        <if test="null != rolename and '' != rolename">
+            rolename,
+        </if>
+        <if test="null != orgname and '' != orgname">
+            orgid,
+        </if>
+        <if test="null != posname and '' != posname">
+            posid,
+        </if>
+        <if test="null != pername and '' != pername">
+            perid
+        </if>
+        )
+        VALUES
+        (
+        <if test="null != roleid and '' != roleid">
+            #{roleid},
+        </if>
+        <if test="null != rolename and '' != rolename">
+            #{rolename},
+        </if>
+        <if test="null != orgname and '' != orgname">
+            (SELECT orgid FROM organization WHERE orgname = #{orgname}),
+        </if>
+        <if test="null != posname and '' != posname">
+            (SELECT posid FROM pos WHERE posname = #{posname}),
+        </if>
+        <if test="null != pername and '' != pername">
+            (SELECT perid FROM permission WHERE pername = #{pername})
+        </if>
+        )
+    </insert>
+
+
+    <update id="updaterole" parameterType="com.example.demotest.pojo.Role">
+        UPDATE Role
+        <set>
+            <if test="null != rolename and '' != rolename">rolename = #{rolename},</if>
+            <if test="null != orgname and '' != orgname">orgid = (SELECT orgid FROM organization WHERE orgname = #{orgname}),</if>
+            <if test="null != posname and '' != posname">posid = (SELECT posid FROM pos WHERE posname = #{posname}),</if>
+            <if test="null != pername and '' != pername">perid = (SELECT perid FROM permission WHERE pername = #{pername}),</if>
+        </set>
+        WHERE roleid = #{roleid}
+    </update>
+
+    <select id="selectbyTiaoJianrole" resultType="com.example.demotest.pojo.Role">
+        select *
+        FROM Role Role natural join pos natural join organization natural join permission
+        <where>
+            <if test="null != rolename and '' != rolename">
+                rolename like concat('%', #{rolename}, '%')
+            </if>
+            <if test="null != orgname and '' != orgname">
+                and orgname like concat('%', #{orgname}, '%')
+            </if>
+            <if test="null != posname and '' != posname">
+                and posname like concat('%', #{posname}, '%')
+            </if>
+            <if test="null != pername and '' != pername">
+                and pername like concat('%', #{pername}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getorgname" resultType="String">
+        select orgname
+        from organization
+    </select>
+
+    <select id="getroleid" resultType="Integer">
+        select roleid
+        from role
+    </select>
+    <select id="getrolecount" resultType="Integer">
+        select count(*)
+        from role
+    </select>
+</mapper>

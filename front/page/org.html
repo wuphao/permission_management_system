@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>table 模块快速使用</title>
+  <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+</head>
+<body>
+<!--<fieldset class="table-search-fieldset">-->
+<!--  <legend>查询条件</legend>-->
+  <div style="margin: 10px 10px 10px 10px">
+    <form class="layui-form layui-form-pane" action="" id="biaodan">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">组织名称</label>
+          <div class="layui-input-inline">
+            <label for="orgname"></label><input id="orgname" type="text" name="orgname" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">组织地点</label>
+          <div class="layui-input-inline">
+            <label for="location"></label><input id="location" type="text" name="location" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-inline">
+          <button class="layui-btn" id="searchBtn" lay-submit
+                  lay-filter="formDemo" data-type="reload">
+            <i class="layui-icon layui-icon-search"></i> 查询
+          </button>
+          <button type="reset" id="resetBtn" class="layui-btn layui-btn-primary"><i
+                  class="layui-icon layui-icon-refresh" ></i> 重 置
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+<!--</fieldset>-->
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add">
+      <i class="layui-icon">&#xe608;</i>新增</button>
+  </div>
+</script>
+
+<table id="demo" lay-filter="test"></table>
+<script type="text/html" id="currentTableBar">
+  <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+</script>
+
+<div class="layui-row" id="popUpdateTest" style="display:none;">
+
+  <div class="layui-col-md10">
+    <form class="layui-form layui-from-pane" lay-filter="aaa" action="" style="margin-top:20px">
+      <div class="layui-form-item" hidden="true">
+        <label class="layui-form-label">编号</label>
+        <div class="layui-input-block">
+          <input type="text" name="orgid" placeholder="请输入编号" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">组织名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="orgname"  placeholder="请输入组织名称" autocomplete="off"
+                 class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">组织地点</label>
+        <div class="layui-input-block">
+          <input type="text" name="location"  placeholder="请输入组织地点" autocomplete="off"
+                 class="layui-input">
+        </div>
+      </div>
+	  
+      <div class="layui-form-item" style="margin-top:40px">
+        <div class="layui-input-block">
+          <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="demo11">确认修改</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="layui-row" id="popUpdateTest1" style="display:none;">
+
+  <div class="layui-col-md10">
+    <form class="layui-form layui-from-pane" lay-filter="aaa" action="" style="margin-top:20px">
+      <div class="layui-form-item" hidden="true">
+        <label class="layui-form-label">编号</label>
+        <div class="layui-input-block">
+          <input type="text" name="orgid"  placeholder="请输入编号" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+	  <!-- <div class="layui-form-item">
+	    <label class="layui-form-label">用户编号</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="userid" required lay-verify="required" placeholder="请输入用户编号" autocomplete="off"
+	             class="layui-input">
+	    </div>
+	  </div> -->
+      <div class="layui-form-item">
+        <label class="layui-form-label">组织名字</label>
+        <div class="layui-input-block">
+          <input type="text" name="orgname" required lay-verify="required" placeholder="请输入组织名字(必填)" autocomplete="off"
+                 class="layui-input">
+        </div>
+      </div>
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">组织地点</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="location" required lay-verify="required" placeholder="请输入组织地点(必填)" autocomplete="off"
+	             class="layui-input">
+	    </div>
+	  </div>
+	  
+      <div class="layui-form-item" style="margin-top:40px">
+        <div class="layui-input-block">
+          <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="demo11">确认添加</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../lib/layui-v2.6.3/layui.js"></script>
+<script>
+  layui.use(['table','layer','form'], function(){
+    var table = layui.table;
+    var $ = layui.jquery;
+    var layer = layui.layer;
+    var form = layui.form;
+    //第一个实例
+    table.render({
+      elem: '#demo'
+      ,height: 500
+      ,url: 'http://localhost:8083/org/selectByTiaoJianorg' //数据接口
+      ,page: true //开启分页
+      ,toolbar: '#toolbarDemo'
+	  ,headers:{"token":localStorage.token}
+      ,where: {orgid : '',orgname : '',location : ''}
+      ,cols: [[ //表头
+       {field: 'orgid', width: 80, title: 'ID', sort: true},
+       {field: 'orgname', width: 160, title: '组织名称'},
+       {field: 'location', width: 160, title: '地点', },
+       {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+		]],
+		 error:function(resp)
+		{
+				   layer.msg("你没有登录", {icon: 5});
+				  setTimeout(function() {
+		   window.location = '../login.html';
+				      }, 3000); 
+		}
+    });
+
+    //监听行工具事件
+    table.on('tool(test)', function (obj) {
+      var data = obj.data;
+      var id = data.orgid;//选中行的id
+      console.log("data数据为：", data);
+      console.log("id数据为：", data.orgid);
+      if (obj.event === 'edit') {
+        // layer.alert('编辑行：<br>' + JSON.stringify(data))
+        updateorg(obj, data);
+      // } else if (obj.event === 'add'){
+      //    console.log("我的数据中data  为:",data);
+      //    adduser(obj,data);
+      }else if (obj.event === 'delete') {
+        layer.confirm('真的删除行么', function (index) {
+          // obj.del();
+          layer.close(index);
+          console.log(id)
+          deleteorg(id);
+
+        });
+      }
+    });
+    table.on('toolbar(test)', function (obj) {
+      if (obj.event === 'add'){
+        addorg()
+      }
+    })
+    //删除用户
+    function deleteorg(id) {
+
+      var url = "http://localhost:8083/org/deleteOneorg?orgid="+id;
+      console.log("url为：", url);
+      $.ajax({
+        type: "GET",
+        url: url,
+        contentType: 'application/json',
+        datatype: "json",
+		 headers:{"token":localStorage.token},
+        success: function (resp) {
+          console.log(resp);
+          if (resp.code == 0) {
+            layer.msg("删除成功", {icon: 6});
+            //刷新数据
+            $(".layui-laypage-btn").click();
+          } else {
+            layer.msg("删除失败", {icon: 5});
+          }
+        },
+		error:function(resp)
+		{
+			layer.msg("你没有权限", {icon: 5});
+		}
+      })
+      return false;
+    }
+
+    //修改用户信息
+    function updateorg(obj, data) {
+
+      //回填数据到表单
+      form.val("aaa", {
+        "orgid": data.orgid
+        , "orgname": data.orgname
+        , "location": data.location
+      });
+      layer.open({
+        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+        type: 1,
+        title: "修改用户信息",
+        area: ['420px', '330px'],
+        content: $("#popUpdateTest")//引用的弹出层的页面层的方式加载修改界面表单
+      });
+
+      console.log("修改原始数据为：", data);
+      console.log("id类型",data.orgid);
+      console.log("obj为：", obj);
+      form.on('submit(demo11)', function (massage) {
+
+        console.log("message为：", massage);
+        console.log("我为",massage.field);
+        console.log("===",data);
+
+        var data1 = massage.field;
+
+        // var data3 = data1.push(data.id);
+        // console.log("=================",data3)
+        var data2 = data;
+        console.log("赋值之后的data:",data2);
+        $.ajax({
+          type: "post",
+          url: "http://localhost:8083/org/updateorg",
+          data: JSON.stringify(data1),
+          // data: { id: data.id, name: data2.name, age: data2.age },
+          contentType: 'application/json',
+          datatype: "json",
+		 headers:{"token":localStorage.token},
+          success: function (resp) {
+            console.log(resp);
+            layer.closeAll();//关闭所有的弹出层
+            if (resp.code == 0) {
+              layer.msg("修改成功", {icon: 6});
+              //刷新数据
+              $(".layui-laypage-btn").click();
+            } else {
+              layer.msg("修改失败", {icon: 5});
+            }
+          },
+		  error:function(resp)
+		  {
+		  		    layer.msg("你没有权限", {icon: 5});
+		  }
+        })
+        return false
+
+      })
+    }
+
+    //新增用户信息
+    function addorg() {
+      //回填数据到表单
+      form.val("aaa", {
+        "orgid": ''
+        , "orgname": ''
+        , "location": ''
+      });
+      layer.open({
+        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+        type: 1,
+        title: "新增组织",
+        area: ['420px', '500px'],
+        content: $("#popUpdateTest1")//引用的弹出层的页面层的方式加载修改界面表单
+      });
+      console.log("测试输出");
+      //监听提交
+      form.on('submit(demo11)', function (message) {
+        // console.log(data.field);
+        var field = message.field;
+        console.log(field);
+        $.ajax({
+          type: "post",
+          url: "http://localhost:8083/org/insertorg",
+          data: JSON.stringify(field),
+          contentType: 'application/json',
+          datatype: "json",
+		  headers:{"token":localStorage.token},
+          success: function (resp) {
+            console.log(resp);
+            layer.closeAll();//关闭所有的弹出层
+            if (resp.code == 0) {
+              layer.msg("添加成功", {icon: 6});
+              //刷新数据
+              $(".layui-laypage-btn").click();
+            } else {
+              layer.msg("添加失败", {icon: 5});
+            }
+          },
+		  error:function(resp)
+		  {
+		  		    layer.msg("你没有权限", {icon: 5});
+		  }
+        });
+        return false
+      });
+
+    }
+// 条件搜索
+    $('#searchBtn').on('click', function () {
+      table.reload('demo', {
+        method: 'get',
+        where: {
+          orgname: $('#orgname').val().trim(),
+		  location: $('#location').val().trim()
+        },
+        page: {
+          curr: 1
+        }
+      });
+      return false;
+    });
+    //点击重置之后重新调用查询接口
+    $('#resetBtn').on('click', function () {
+      layui.form.render();
+      $('#biaodan')[0].reset();
+      table.reload('demo', {
+        method: 'get',
+        where: {
+          orgname:'',
+		  location:''
+        },
+        page: {
+          curr: 1
+        }
+      });
+      return false;
+    });
+  });
+
+</script>
+</body>
+</html>

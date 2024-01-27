@@ -1,0 +1,45 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "../page/welcome1.html"
+  },
+  "logoInfo": {
+    "title": "权限管理系统",
+    "image": "../images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "权限管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "用户管理",
+          "href": "../page/user.html",
+          "icon": "fa fa-home",
+          "target": "_self"
+        },
+        {
+          "title": "组织管理",
+          "href": "../page/org.html",
+          "icon": "fa fa-window-maximize",
+          "target": "_self"
+        },
+        {
+          "title": "岗位管理",
+          "href": "../page/pos.html",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        },
+        {
+          "title": "角色管理",
+          "href": "../page/role.html",
+          "icon": "fa fa-file-text",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}

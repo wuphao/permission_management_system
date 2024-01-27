@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demotest.mapper.UserMapper">
+    <select id="getalluser" resultType="com.example.demotest.pojo.User" >
+
+        SELECT *
+        from User
+    </select>
+
+    <delete id="deleteOneuser" parameterType="Integer">
+        delete from User
+        where userid = #{userid}
+    </delete>
+
+    <update id="updateuser" parameterType="com.example.demotest.pojo.User">
+        UPDATE User
+        <set>
+            <if test="null != username and '' != username">username = #{username},</if>
+            <if test="null != password and '' != password">password = #{password},</if>
+            <if test="null != phonenumber and '' != phonenumber">phonenumber = #{phonenumber},</if>
+            <if test="null != email and '' != email">email = #{email},</if>
+            <if test="null !=rolename and ''!=rolename"> roleid=(select roleid from role where rolename=#{rolename})</if>
+        </set>
+        WHERE userid = #{userid}
+    </update>
+
+    <insert id="insertuser" parameterType="com.example.demotest.pojo.User">
+        INSERT INTO user
+        (
+        <if test="null != userid and '' != userid">
+            userid,
+        </if>
+        <if test="null != username and '' != username">
+            username,
+        </if>
+        <if test="null != password and '' != password">
+            password,
+        </if>
+        <if test="null != phonenumber and '' != phonenumber">
+            phonenumber,
+        </if>
+        <if test="null != email and '' != email">
+            email,
+        </if>
+        <if test="null != rolename and '' != rolename">
+            roleid
+        </if>
+        )
+        VALUES
+        (
+        <if test="null != userid and '' != userid">
+            #{userid},
+        </if>
+        <if test="null != username and '' != username">
+            #{username},
+        </if>
+        <if test="null != password and '' != password">
+            #{password},
+        </if>
+        <if test="null != phonenumber and '' != phonenumber">
+            #{phonenumber},
+        </if>
+        <if test="null != email and '' != email">
+            #{email},
+        </if>
+        <if test="null != rolename and '' != rolename">
+            (SELECT roleid FROM Role WHERE rolename = #{rolename})
+        </if>
+        )
+    </insert>
+
+    <select id="selectByTiaoJianuser" resultType="com.example.demotest.pojo.User">
+        select *
+        FROM User natural join role
+        <where>
+            <if test="null != username and '' != username">
+                username like concat('%',#{username},'%')
+            </if>
+            <if test="null != rolename and '' != rolename">
+                and rolename like concat('%',#{rolename},'%')
+            </if>
+            <if test="null != phonenumber and '' != phonenumber">
+                and phonenumber like concat('%',#{phonenumber},'%')
+            </if>
+        </where>
+    </select>
+    <select id="login" resultType="com.example.demotest.pojo.User">
+        select userid,username,password,phonenumber,email,rolename
+        from User natural join Role
+        where username=#{username} and password=#{password} and perid between 0 and 7
+    </select>
+    <select id="getper" parameterType="com.example.demotest.pojo.User" resultType="Integer">
+        select perid
+        from user natural join role natural join permission
+        where userid=#{userid}
+    </select>
+
+    <select id="getuserid" resultType="Integer">
+        select userid
+        from user
+    </select>
+
+    <select id="getusercount" resultType="Integer">
+        select count(*)
+        from user
+    </select>
+
+</mapper>

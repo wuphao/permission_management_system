@@ -1,0 +1,32 @@
+
+server:
+  port: 8083
+spring:
+  application:
+    name: demoTest
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/pm?useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: 123456
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+      cache-null-values: false
+  redis:
+    host: 127.0.0.1
+    password: 123
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demotest.pojo
+logging:
+  file:
+    path: D:\IDEAproject\mydemo\info
+  level:
+       root: info
+
+
